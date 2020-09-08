@@ -1,26 +1,39 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { signin } from '../actions';
-import { Link } from 'react-router-dom';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import React from "react";
+import { connect } from "react-redux";
+import { signIn } from "../actions";
+import { Link } from "react-router-dom";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdbreact";
 
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      email: "",
+      password: "",
+      error: "",
     };
   }
 
-  signin = event => {
+  handleSignIn = (event, method) => {
     event.preventDefault();
-    this.props.signin(this.state).then(() => {
-      this.props.history.push('/create-account');
+    const { email, password } = this.state;
+    this.props.signIn(method, { email, password }).then(() => {
+      if (this.props.currentUser.isTourGuide) {
+        this.props.history.push("/dashboard");
+      } else {
+        this.props.history.push("/explore-tours");
+      }
     });
   };
 
-  handleInput = event => {
+  handleInput = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -35,47 +48,99 @@ class SignIn extends React.Component {
         <MDBContainer>
           <MDBRow>
             <MDBCol>
-              <form onSubmit={this.signin}>
+              <form onSubmit={(event) => this.handleSignIn(event, "email")}>
                 <div className='grey-text'>
                   <MDBInput
-                    label='Type your username'
+                    label='Email'
                     group
-                    type='text'
+                    size='sm'
+                    type='email'
                     validate
                     error='wrong'
                     success='right'
-                    name='username'
-                    value={this.state.username}
+                    name='email'
+                    value={this.state.email}
                     onChange={this.handleInput}
-                    autoComplete='off'
+                    autoComplete='on'
                   />
                   <MDBInput
-                    label='Type your password'
+                    label='Password'
                     group
+                    size='sm'
                     type='password'
                     validate
                     name='password'
                     value={this.state.password}
                     onChange={this.handleInput}
-                    autoComplete='off'
+                    autoComplete='on'
                   />
                 </div>
-                <div className='text-center'>
-                  <MDBBtn gradient='blue' type='submit'>
-                    Sign In
-                  </MDBBtn>
-                </div>
-                <div className='info'>
-                  <span className='h9 poppins-font'>
-                    Don't have an account?{' '}
-                    <strong className='main-color-blue linker'>
-                      <Link exact to='/'>
-                        Sign Up
-                      </Link>
-                    </strong>
-                  </span>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MDBInput
+                    label='Remember Me?'
+                    type='checkbox'
+                    id='checkbox2'
+                    checked={this.state.isTourGuide}
+                    onChange={this.checkedTourGuide}
+                  />
+                  <div className='text-center'>
+                    <MDBBtn
+                      size='md'
+                      gradient='blue'
+                      type='submit'
+                      className='py-2 px-5'
+                    >
+                      Sign In
+                    </MDBBtn>
+                  </div>
                 </div>
               </form>
+              <p className='text-center my-3'>or</p>
+              <div style={{ display: "flex" }}>
+                <MDBBtn
+                  onClick={(event) => this.handleSignIn(event, "facebook")}
+                  color='blue'
+                  size='sm'
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <MDBIcon fab icon='facebook' size='2x' className='px-2' />
+                  Sign In with Facebook
+                </MDBBtn>
+                <MDBBtn
+                  onClick={(event) => this.handleSignIn(event, "google")}
+                  color='red'
+                  size='sm'
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <MDBIcon fab icon='google' size='2x' className='px-2' />
+                  Sign In with Google
+                </MDBBtn>
+              </div>
+              <div
+                className='info'
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <span className='h9 poppins-font'>
+                  Don't have an account?{" "}
+                  <strong className='main-color-blue linker'>
+                    <Link exact to='/'>
+                      Sign Up
+                    </Link>
+                  </strong>
+                </span>
+              </div>
             </MDBCol>
           </MDBRow>
         </MDBContainer>
@@ -84,11 +149,10 @@ class SignIn extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.userReducer.currentUser,
+  };
 };
 
-export default connect(
-  mapStateToProps,
-  { signin },
-)(SignIn);
+export default connect(mapStateToProps, { signIn })(SignIn);

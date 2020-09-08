@@ -1,12 +1,7 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
-import { addTour, getSingleUserById } from "../actions";
-import Map from "../components/Map";
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
+import { getSingleUserById, updateTour, deleteTour } from "../actions";
 import "./AddTour.css";
 import { Redirect } from "react-router";
 
@@ -21,8 +16,6 @@ import {
   MDBContainer,
   MDBMask,
   MDBView,
-  MDBAutocomplete,
-  func,
 } from "mdbreact";
 import {
   MDBDropdown,
@@ -30,19 +23,18 @@ import {
   MDBDropdownMenu,
   MDBDropdownItem,
   MDBSelect,
-  MDBInput,
 } from "mdbreact";
 
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBBtn } from "mdbreact";
-import { LoadScript } from "@react-google-maps/api";
 
-class AddTour extends Component {
+class UpdateTour extends Component {
   constructor(props) {
     super(props);
     this.state = {
       collapse: false,
       isWideEnough: false,
       modal: false,
+      id: null,
       tourTitle: "",
       tourCategory: "",
       tourDescription: "",
@@ -51,9 +43,7 @@ class AddTour extends Component {
       recommendedAge: "",
       whatTheyShouldBring: "",
       tourAddress: "",
-      tourPrice: 0,
-      lat: 40.7128,
-      lng: -74.006,
+      tourPrice: null,
       options: [
         {
           text: "All Ages",
@@ -73,6 +63,31 @@ class AddTour extends Component {
   }
 
   componentDidMount() {
+    console.log("update-tour state", this.props);
+    const {
+      id,
+      tourname,
+      tourdescription,
+      durationhrs,
+      whattobring,
+      recommendedage,
+      meetingaddress,
+      price,
+    } = this.props.location.state;
+
+    this.setState((state) => {
+      return {
+        ...state,
+        id,
+        tourTitle: tourname,
+        tourDescription: tourdescription,
+        recommendedAge: recommendedage,
+        whatTheyShouldBring: whattobring,
+        tourLength: durationhrs,
+        tourAddress: meetingaddress,
+        tourPrice: price,
+      };
+    });
     this.props.getSingleUserById();
   }
 
@@ -93,9 +108,13 @@ class AddTour extends Component {
   }
 
   handleInputChanges = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    e.target.name
+      ? this.setState({
+          [e.target.name]: e.target.value,
+        })
+      : this.setState({
+          [this.inputElm]: e.target.value,
+        });
   };
 
   // Handle recommended age select
@@ -108,10 +127,10 @@ class AddTour extends Component {
     });
   };
 
-  addTour = (e) => {
+  handleUpdate = (e) => {
     e.preventDefault();
-    // const { tourguidephonenumber } = this.props.
-    this.props.addTour({
+    console.log("Update Start");
+    this.props.updateTour(this.state.id, {
       tourname: this.state.tourTitle,
       category: this.state.tourCategory,
       tourdescription: this.state.tourDescription,
@@ -126,20 +145,11 @@ class AddTour extends Component {
     this.redirectDashBoard();
   };
 
-  handPlaceSelected = (place) => {
-    console.log(place);
-  };
-
-  setLatLng = (lat, lng) => {
-    if ((lat, lng))
-      this.setState((prevState) => {
-        return {
-          ...prevState,
-          lat,
-          lng,
-        };
-      });
-  };
+  handleDelete() {
+    this.props.deleteTour(this.state.id).then(() => {
+      this.props.history.push("/dashboard");
+    });
+  }
 
   render() {
     const { isTourGuide } = this.props.currentUser;
@@ -246,68 +256,45 @@ class AddTour extends Component {
                   marginTop: "5rem",
                 }}
               >
-                ADD A TOUR
+                TOUR INFO
               </h2>
-              <h5 style={{ paddingBottom: "1rem" }}>
-                Fill out the form to create a new tour thus enriching the life
-                of hundreds of people!
+              <h5 style={{ paddingBottom: "1rem", marginBottom: "5rem" }}>
+                Here you can update information or delete a tour.
               </h5>
               <div className='addTourWrapper'>
                 <div className='tourTitleWrapper'>
-                  <div className='tourTitle md-outline md-form form-lg'>
-                    <MDBInput
-                      label='Title'
-                      className='title form-control'
-                      size='lg'
-                      id='title'
+                  <div className='tourTitle'>
+                    <input
+                      className='title'
                       type='text'
+                      placeholder='Title Your Tour'
                       name='tourTitle'
                       maxLength='35'
                       value={this.state.tourTitle}
                       onChange={this.handleInputChanges}
-                      style={
-                        {
-                          // outline: "none",
-                          // border: "none",
-                          // fontSize: "2rem",
-                        }
-                      }
+                      style={{
+                        outline: "none",
+                        border: "none",
+                        fontSize: "2rem",
+                      }}
                     />
+                    {/* <input
+                      className='category'
+                      type='text'
+                      placeholder='Category'
+                      name='tourCategory'
+                      maxLength='15'
+                      value={this.state.tourCategory}
+                      onChange={this.handleInputChanges}
+                      style={{ outline: "none", border: "none" }}
+                    /> */}
                   </div>
                 </div>
               </div>
             </MDBMask>
           </MDBView>
         </header>
-        <MDBContainer
-          className='text-center d-flex'
-          style={{
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingRight: "500px",
-          }}
-        >
-          <div className='mapWrapper w-100' style={{ margin: "0 3rem" }}>
-            <h2>Map</h2>
-            <div
-              className='map'
-              style={{
-                width: "100%",
-                border: "1px solid black",
-                borderRadius: "5px",
-              }}
-            >
-              <Map
-                google={this.props.google}
-                center={{ lat: this.state.lat, lng: this.state.lng }}
-                height='500px'
-                zoom={12}
-                lat={this.state.lat}
-                lng={this.state.lng}
-              />
-            </div>
-          </div>
+        <MDBContainer className='text-center' style={{ height: "100%" }}>
           <div className='addTourAboutWrapper'>
             <div className='addTourAbout'>
               <h2
@@ -319,7 +306,7 @@ class AddTour extends Component {
               >
                 About this tour
               </h2>
-              <form onSubmit={this.addTour} className='d-flex flex-column'>
+              <form onSubmit={this.handleUpdate} className='d-flex flex-column'>
                 <div className='d-flex'>
                   <div className='d-flex flex-column'>
                     <div className='info'>
@@ -353,18 +340,13 @@ class AddTour extends Component {
                         required
                         getValue={this.handleSelect}
                         options={this.state.options}
-                        selected='Recommended Age'
+                        selected={this.state.recommendedAge}
                         color='primary'
                         className='form-control'
                         style={{
                           backgroundColor: "#F2F2F2",
                           borderRadius: "5px",
-                          display: "flex",
                           justifyContent: "center",
-                          alignItems: "center",
-                          height: "50px",
-                          width: "100%",
-                          padding: "1rem 0.5rem",
                         }}
                       />
                     </div>
@@ -384,17 +366,14 @@ class AddTour extends Component {
                     </div>
                     <div className='target'>
                       <i className='targetSymbol'></i>
-                      {/* <input
+                      <input
                         className='tourAddress'
-                        // type='text'
-                        // placeholder='What is the address'
+                        type='text'
+                        placeholder='What is the address'
                         name='tourAddress'
-                        // onPlaceSelected={this.handPlaceSelected}
-                        // types={["(regions)"]}
                         value={this.state.tourAddress}
                         onChange={this.handleInputChanges}
-                      /> */}
-                      <Search setLatLng={this.setLatLng} />
+                      />
                     </div>
                     <div></div>
                     {/* <MDBContainer style={{ marginLeft: "1.5rem" }}>
@@ -416,7 +395,6 @@ class AddTour extends Component {
                         <NumberFormat
                           thousandSeparator={true}
                           allowNegative={false}
-                          allowEmptyFormatting={true}
                           decimalScale={2}
                           fixedDecimalScale={true}
                           className='tourPriceInput py-3'
@@ -443,13 +421,12 @@ class AddTour extends Component {
                     </div>
                   </div>
                 </div>
-                <div style={{ marginTop: "3rem" }}>
+                <div>
                   <MDBBtn
                     className='btnAddTour'
                     gradient='blue'
                     type='submit'
-                    onClick={this.toggle}
-                    // style={{ width: "10rem", height: "3rem" }}
+                    // onClick={this.toggle}
                   >
                     Save
                   </MDBBtn>
@@ -466,21 +443,31 @@ class AddTour extends Component {
                         color: "green",
                       }}
                     >
-                      Your tour is now published!
+                      <h3 style={{ color: "red" }}>Warning:</h3>
+                      <p style={{ color: "red" }}>This cannot be undone!</p>
+                      <div className='d=flex' color='danger'>
+                        <MDBBtn color='secondary' onClick={this.toggle}>
+                          Go Back
+                        </MDBBtn>
+                        <MDBBtn color='danger' onClick={this.handleDelete}>
+                          Delete
+                        </MDBBtn>
+                      </div>
                     </MDBModalBody>
                   </MDBModal>
                   <MDBBtn
                     className='btnCancel'
-                    // style={{
-                    //   width: "2rem",
-                    //   marginLeft: "0",
-                    //   height: "3rem",
-                    // }}
-                    color='danger'
-                    type='submit'
+                    color='info'
                     onClick={() => this.redirectDashBoard()}
                   >
                     Cancel
+                  </MDBBtn>
+                  <MDBBtn
+                    className='btnCancel'
+                    color='danger'
+                    onClick={() => this.toggle()}
+                  >
+                    Delete
                   </MDBBtn>
                 </div>
               </form>
@@ -498,55 +485,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addTour, getSingleUserById })(
-  AddTour
-);
-
-function Search({ setLatLng }) {
-  const [libraries] = useState(["places"]);
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-    clearSuggestions,
-  } = usePlacesAutocomplete({
-    requestOptions: {
-      location: { lat: () => 43.6532, lng: () => -79.3832 },
-      radius: 100 * 1000,
-    },
-  });
-
-  const logValue = (val) => {
-    console.log("val", val);
-
-    setValue(val, true);
-    console.log("value", value);
-    let x = data.map((item) => item.description);
-    console.log("description", x);
-
-    async function onPlaceSelected(address) {
-      try {
-        const results = await getGeocode({ address });
-        const { lat, lng } = await getLatLng(results[0]);
-        console.log("lat, lng", lat, lng);
-        setLatLng(lat, lng);
-      } catch (error) {
-        console.log("error!", error);
-      }
-    }
-    onPlaceSelected(x[0]);
-  };
-
-  return (
-    <div className='w-100'>
-      <MDBAutocomplete
-        data={data.map((item) => item.description)}
-        label='Tour Address'
-        id='tourAddress'
-        getValue={logValue}
-        className='address'
-      />
-    </div>
-  );
-}
+export default connect(mapStateToProps, {
+  getSingleUserById,
+  updateTour,
+  deleteTour,
+})(UpdateTour);

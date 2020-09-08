@@ -1,15 +1,13 @@
-import React from 'react';
-import { Redirect } from 'react-router';
+import React from "react";
+import { Redirect } from "react-router";
 
 class Logout extends React.Component {
-
   componentDidMount() {
-    localStorage.removeItem('auth-token');
-    localStorage.removeItem('username');
+    localStorage.removeItem("firebase_jwt");
   }
 
   render() {
-    return <Redirect to='/' />;
+    return <Redirect to='/signin' />;
   }
 }
 

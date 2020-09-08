@@ -1,51 +1,45 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { signUp, addNewGuideToStore, addNewTouristToStore } from '../actions';
-import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn } from 'mdbreact';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { signUp, getSingleUserById } from "../actions";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput,
+  MDBBtn,
+  MDBIcon,
+} from "mdbreact";
+import firebase from "firebase/app";
 
 class SignUp extends Component {
   state = {
-    username: '',
-    password: '',
-    isTourGuide: false,
+    email: "",
+    password: "",
+    // isTourGuide: false,
+    // error: null,
   };
 
-  handleInputChanges = e => {
+  handleInputChanges = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
-  checkedTourGuide = () => {
-    if (this.state.isTourGuide) {
-      this.setState(prevState => ({
-        ...prevState,
-        isTourGuide: false,
-      }));
-    } else {
-      this.setState(prevState => ({
-        ...prevState,
-        isTourGuide: true,
-      }));
-    }
-  };
-
-
-
-  signUp = event => {
+  handleSignUp = (event, method) => {
     event.preventDefault();
-    if (this.state.isTourGuide) {
-      this.props.addNewGuideToStore(this.state)
-      this.props.signUp(this.state).then(() => {
-        this.props.history.push('/signin');
-      });
-    } else {
-      this.props.addNewTouristToStore(this.state)
-      this.props.signUp(this.state).then(() => {
-        this.props.history.push('/signin');
-      });
-    }
+    const { email, password } = this.state;
+    this.props.signUp(method, { email, password }).then(() => {
+      if (method === "google" || method === "facebook") {
+        if (this.props.currentUser) {
+          const { isRegistered, isTourGuide } = this.props.currentUser;
+          console.log("isRegistered: ", isRegistered);
+          if (isTourGuide) this.props.history.push("/dashboard");
+          else this.props.history.push("/explore-tours");
+        }
+      }
+      this.props.history.push("/create-account");
+    });
   };
 
   render() {
@@ -57,56 +51,100 @@ class SignUp extends Component {
         <MDBContainer>
           <MDBRow>
             <MDBCol>
-              <form onSubmit={this.signUp}>
+              <form onSubmit={(event) => this.handleSignUp(event, "email")}>
                 <div className='grey-text'>
                   <MDBInput
-                    label='Type your username'
+                    label='Email'
                     group
-                    type='text'
+                    size='sm'
+                    type='email'
                     validate
                     error='wrong'
                     success='right'
-                    name='username'
-                    value={this.state.username}
+                    name='email'
+                    value={this.state.email}
                     onChange={this.handleInputChanges}
-                    autoComplete='off'
+                    autoComplete='on'
                   />
                   <MDBInput
-                    label='Type your password'
+                    label='Password'
                     group
+                    size='sm'
                     type='password'
                     validate
                     name='password'
                     value={this.state.password}
                     onChange={this.handleInputChanges}
-                    autoComplete='off'
+                    autoComplete='on'
                   />
                 </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MDBInput
+                    label='Remember Me?'
+                    type='checkbox'
+                    id='checkbox2'
+                    checked={this.state.isTourGuide}
+                    onChange={this.checkedTourGuide}
+                  />
 
-                <MDBInput
-                  label='Are you a tour guide?'
-                  type='checkbox'
-                  id='checkbox2'
-                  checked={this.state.isTourGuide}
-                  onChange={this.checkedTourGuide}
-                />
-
-                <div className='text-center'>
-                  <MDBBtn gradient='blue' type='submit'>
-                    Sign Up
-                  </MDBBtn>
-                </div>
-                <div className='info'>
-                  <span className='h9 poppins-font'>
-                    Already have an account?{' '}
-                    <strong className='main-color-blue linker'>
-                      <Link exact to='/signin'>
-                        Sign In
-                      </Link>
-                    </strong>
-                  </span>
+                  <div className='text-center'>
+                    <MDBBtn
+                      size='md'
+                      gradient='blue'
+                      type='submit'
+                      className='py-2 px-5'
+                    >
+                      Sign Up
+                    </MDBBtn>
+                  </div>
                 </div>
               </form>
+              <p className='text-center my-3'>or</p>
+              <div style={{ display: "flex" }}>
+                <MDBBtn
+                  onClick={(event) => this.handleSignUp(event, "facebook")}
+                  color='blue'
+                  size='sm'
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <MDBIcon fab icon='facebook' size='2x' className='px-2' />
+                  Sign In with Facebook
+                </MDBBtn>
+                <MDBBtn
+                  onClick={(event) => this.handleSignUp(event, "google")}
+                  color='red'
+                  size='sm'
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <MDBIcon fab icon='google' size='2x' className='px-2' />
+                  Sign In with Google
+                </MDBBtn>
+              </div>
+              <div
+                className='info'
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                <span className='h9 poppins-font'>
+                  Already have an account?{" "}
+                  <strong className='main-color-blue linker'>
+                    <Link exact to='/signin'>
+                      Sign In
+                    </Link>
+                  </strong>
+                </span>
+              </div>
             </MDBCol>
           </MDBRow>
         </MDBContainer>
@@ -115,11 +153,13 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.userReducer.currentUser,
+  };
 };
 
-export default connect(
-  mapStateToProps,
-  { signUp, addNewGuideToStore, addNewTouristToStore },
-)(SignUp);
+export default connect(mapStateToProps, {
+  signUp,
+  getSingleUserById,
+})(SignUp);
