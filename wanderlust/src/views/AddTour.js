@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
 import { addTour, getSingleUserById } from "../actions";
+import NavBar from "../components/NavBar";
 import Map from "../components/Map";
 import usePlacesAutocomplete, {
   getGeocode,
@@ -9,27 +10,8 @@ import usePlacesAutocomplete, {
 } from "use-places-autocomplete";
 import "./AddTour.css";
 
-import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavbarToggler,
-  MDBCollapse,
-  MDBNavItem,
-  MDBNavLink,
-  MDBContainer,
-  MDBMask,
-  MDBView,
-  MDBAutocomplete,
-} from "mdbreact";
-import {
-  MDBDropdown,
-  MDBDropdownToggle,
-  MDBDropdownMenu,
-  MDBDropdownItem,
-  MDBSelect,
-  MDBInput,
-} from "mdbreact";
+import { MDBContainer, MDBMask, MDBView, MDBAutocomplete } from "mdbreact";
+import { MDBSelect, MDBInput } from "mdbreact";
 
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBBtn } from "mdbreact";
 // import { LoadScript } from "@react-google-maps/api";
@@ -38,8 +20,6 @@ class AddTour extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: false,
-      isWideEnough: false,
       modal: false,
       tourTitle: "",
       tourCategory: "",
@@ -67,17 +47,10 @@ class AddTour extends Component {
         },
       ],
     };
-    this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
     this.props.getSingleUserById();
-  }
-
-  onClick() {
-    this.setState({
-      collapse: !this.state.collapse,
-    });
   }
 
   toggle = () => {
@@ -108,7 +81,6 @@ class AddTour extends Component {
 
   addTour = (e) => {
     e.preventDefault();
-    // const { tourguidephonenumber } = this.props.
     this.props.addTour({
       tourname: this.state.tourTitle,
       category: this.state.tourCategory,
@@ -140,100 +112,10 @@ class AddTour extends Component {
   };
 
   render() {
-    const { isTourGuide } = this.props.currentUser;
     return (
       <div>
         <header className='addTourHeader'>
-          <MDBNavbar
-            color='unique-color'
-            fixed='top'
-            dark
-            expand='md'
-            scrolling
-            transparent
-            style={{ boxShadow: "none" }}
-          >
-            <MDBNavbarBrand href='/'>
-              <strong style={{ fontSize: "2rem", fontWeight: "bold" }}>
-                Wanderlust
-              </strong>
-            </MDBNavbarBrand>
-            {!this.state.isWideEnough && (
-              <MDBNavbarToggler onClick={this.onClick} />
-            )}
-            <MDBCollapse isOpen={this.state.collapse} navbar>
-              <MDBNavbarNav right style={{}}>
-                {!this.state.collapse ? (
-                  <MDBNavItem style={{ display: "hide" }}>
-                    <MDBDropdown>
-                      <MDBDropdownToggle nav caret color='unique-color'>
-                        <span style={{ fontSize: "1.3rem" }}>
-                          {this.props.currentUser.first_name}
-                        </span>
-                      </MDBDropdownToggle>
-                      {isTourGuide ? (
-                        <MDBDropdownMenu color='unique-color'>
-                          <MDBDropdownItem href='/dashboard'>
-                            My offered Tours
-                          </MDBDropdownItem>
-                          <MDBDropdownItem href='/add-tour'>
-                            Add a Tour
-                          </MDBDropdownItem>
-                          <MDBDropdownItem href='/settings'>
-                            Settings
-                          </MDBDropdownItem>
-                          <MDBDropdownItem href='/logout'>
-                            Logout
-                          </MDBDropdownItem>
-                        </MDBDropdownMenu>
-                      ) : (
-                        <MDBDropdownMenu color='unique-color'>
-                          <MDBDropdownItem href='/explore-tours'>
-                            Explore Tours
-                          </MDBDropdownItem>
-                          <MDBDropdownItem href='/settings'>
-                            Settings
-                          </MDBDropdownItem>
-                          <MDBDropdownItem href='/logout'>
-                            Logout
-                          </MDBDropdownItem>
-                        </MDBDropdownMenu>
-                      )}
-                    </MDBDropdown>
-                  </MDBNavItem>
-                ) : (
-                  <MDBNavItem
-                    style={{
-                      marginLeft: "1rem",
-                      marginRight: "1rem",
-                      fontSize: "1.3rem",
-                      fontWeight: "400",
-                    }}
-                  >
-                    {isTourGuide ? (
-                      <>
-                        <MDBNavLink to='/dashboard'>
-                          My offered Tours
-                        </MDBNavLink>
-                        <MDBNavLink to='/add-tour'>Add a Tour</MDBNavLink>
-                        <MDBNavLink to='/settings'>Settings</MDBNavLink>
-                        <MDBNavLink to='/logout'>Logout</MDBNavLink>
-                      </>
-                    ) : (
-                      <>
-                        <MDBNavLink to='/explore-tours'>
-                          Explore Tours
-                        </MDBNavLink>
-                        <MDBNavLink to='/settings'>Settings</MDBNavLink>
-                        <MDBNavLink to='logout'>Logout</MDBNavLink>
-                      </>
-                    )}
-                  </MDBNavItem>
-                )}
-              </MDBNavbarNav>
-            </MDBCollapse>
-          </MDBNavbar>
-
+          <NavBar />
           <MDBView src='/assets/mapwithcamera.jpg' className='d-flex h-100'>
             <MDBMask className='flex-center flex-column text-white text-center rgba-black-strong'>
               <h2
