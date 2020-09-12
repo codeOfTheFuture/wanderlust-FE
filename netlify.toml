@@ -1,6 +1,6 @@
 [build]
 base = "wanderlust/"
-publish = "wanderlust/build/"
+publish = "wanderlust/public/"
 command = "npm run build"
 
 [[redirects]]
