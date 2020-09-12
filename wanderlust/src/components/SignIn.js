@@ -135,7 +135,7 @@ class SignIn extends React.Component {
                 <span className='h9 poppins-font'>
                   Don't have an account?{" "}
                   <strong className='main-color-blue linker'>
-                    <Link exact to='/'>
+                    <Link exact to='/signup'>
                       Sign Up
                     </Link>
                   </strong>

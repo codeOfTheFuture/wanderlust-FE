@@ -7,7 +7,7 @@ class Logout extends React.Component {
   }
 
   render() {
-    return <Redirect to='/signin' />;
+    return <Redirect to='/' />;
   }
 }
 

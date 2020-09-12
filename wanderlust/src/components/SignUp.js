@@ -138,7 +138,7 @@ class SignUp extends Component {
                 <span className='h9 poppins-font'>
                   Already have an account?{" "}
                   <strong className='main-color-blue linker'>
-                    <Link exact to='/signin'>
+                    <Link exact to='/'>
                       Sign In
                     </Link>
                   </strong>

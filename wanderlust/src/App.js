@@ -18,8 +18,8 @@ import "mdbreact/dist/css/mdb.css";
 function App() {
   return (
     <div className='App'>
-      <Route exact path='/' render={(props) => <SignUp {...props} />} />
-      <Route exact path='/signin' render={(props) => <SignIn {...props} />} />
+      <Route exact path='/' render={(props) => <SignIn {...props} />} />
+      <Route exact path='/signup' render={(props) => <SignUp {...props} />} />
       <Route exact path='/dashboard' render={() => <Dashboard />} />
       <Route
         exact
