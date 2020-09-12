@@ -1,6 +1,6 @@
 import React from "react";
 import "./componentStyles/showTour.css";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 class ShowTourCard extends React.Component {
   constructor(props) {

@@ -22,14 +22,14 @@ export const signUp = (method, accountData) => {
         // Sign up with Facebook
         provider = await new firebase.auth.FacebookAuthProvider();
 
-        const result = await firebase.auth().signInWithPopup(provider);
+        await firebase.auth().signInWithPopup(provider);
 
         // const accessToken = result.credential.accessToken;
       } else {
         // Sign up with Google
         provider = await new firebase.auth.GoogleAuthProvider();
 
-        const result = await firebase.auth().signInWithPopup(provider);
+        await firebase.auth().signInWithPopup(provider);
       }
 
       const idToken = await firebase.auth().currentUser.getIdToken(true);
@@ -74,12 +74,12 @@ export const signIn = (method, credentials) => {
         // Sign in with Facebook
         provider = await new firebase.auth.FacebookAuthProvider();
 
-        const result = await firebase.auth().signInWithPopup(provider);
+        await firebase.auth().signInWithPopup(provider);
       } else {
         // Sign up with Google
         provider = await new firebase.auth.GoogleAuthProvider();
 
-        const result = await firebase.auth().signInWithPopup(provider);
+        await firebase.auth().signInWithPopup(provider);
       }
       const idToken = await firebase.auth().currentUser.getIdToken(true);
 

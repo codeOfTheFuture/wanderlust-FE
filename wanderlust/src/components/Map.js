@@ -1,12 +1,12 @@
 import React from "react";
 import {
   GoogleMap,
-  LoadScript,
-  Marker,
-  InfoWindow,
+  // LoadScript,
+  // Marker,
+  // InfoWindow,
 } from "@react-google-maps/api";
 
-const libraries = ["places"];
+// const libraries = ["places"];
 const mapContainerStyle = {
   width: "500px",
   height: "500px",

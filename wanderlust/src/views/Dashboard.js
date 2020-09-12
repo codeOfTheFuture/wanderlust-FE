@@ -27,7 +27,6 @@ import {
   getSingleGuidesTours,
 } from "../actions";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { Route } from "react-router-dom";
 
 class Dashboard extends React.Component {

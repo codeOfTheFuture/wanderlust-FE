@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getSingleUserById, updateUserById } from "../actions";
-import firebase from "firebase/app";
 
 import {
   MDBContainer,

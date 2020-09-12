@@ -8,7 +8,6 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import "./AddTour.css";
-import { Redirect } from "react-router";
 
 import {
   MDBNavbar,
@@ -22,7 +21,6 @@ import {
   MDBMask,
   MDBView,
   MDBAutocomplete,
-  func,
 } from "mdbreact";
 import {
   MDBDropdown,
@@ -34,7 +32,7 @@ import {
 } from "mdbreact";
 
 import { MDBModal, MDBModalBody, MDBModalHeader, MDBBtn } from "mdbreact";
-import { LoadScript } from "@react-google-maps/api";
+// import { LoadScript } from "@react-google-maps/api";
 
 class AddTour extends Component {
   constructor(props) {
@@ -423,7 +421,7 @@ class AddTour extends Component {
                           value={this.state.tourPrice}
                           style={{ color: "black", width: "6rem" }}
                           onValueChange={(values) => {
-                            const { formattedValue, value } = values;
+                            const { value } = values;
                             this.setState((state) => {
                               return {
                                 ...state,
@@ -503,13 +501,13 @@ export default connect(mapStateToProps, { addTour, getSingleUserById })(
 );
 
 function Search({ setLatLng }) {
-  const [libraries] = useState(["places"]);
+  // const [libraries] = useState(["places"]);
   const {
-    ready,
+    // ready,
     value,
-    suggestions: { status, data },
+    suggestions: { data },
     setValue,
-    clearSuggestions,
+    // clearSuggestions,
   } = usePlacesAutocomplete({
     requestOptions: {
       location: { lat: () => 43.6532, lng: () => -79.3832 },

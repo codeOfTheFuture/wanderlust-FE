@@ -70,7 +70,7 @@ class EditInfoForm extends Component {
 
   updateUserInfo = (e) => {
     e.preventDefault();
-    const { email, firstname, lastname, phonenumber } = this.state;
+    // const { email, firstname, lastname, phonenumber } = this.state;
 
     // JSON.parse(localStorage.getItem("user")).istourguide ?
     //   this.props.updateGuideById({ email, firstname, lastname, phonenumber }, this.state.guideid) :

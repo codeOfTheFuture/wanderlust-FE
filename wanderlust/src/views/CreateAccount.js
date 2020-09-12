@@ -97,18 +97,18 @@ class Settings extends React.Component {
                       </MDBDropdownItem>
                       <MDBDropdownItem href='/logout'>Logout</MDBDropdownItem>
                     </MDBDropdownMenu>
-                    // ) : (
-                    {/* <MDBDropdownMenu color='unique-color'>
-                        <MDBDropdownItem href='/explore-tours'>
-                          Explore Tours
-                        </MDBDropdownItem>
+                    ) : (
+                    <MDBDropdownMenu color='unique-color'>
+                      <MDBDropdownItem href='/explore-tours'>
+                        Explore Tours
+                      </MDBDropdownItem>
 
-                        <MDBDropdownItem href='/settings'>
-                          Settings
-                        </MDBDropdownItem>
-                        <MDBDropdownItem href='/logout'>Logout</MDBDropdownItem>
-                      </MDBDropdownMenu> */}
-                    )}
+                      <MDBDropdownItem href='/settings'>
+                        Settings
+                      </MDBDropdownItem>
+                      <MDBDropdownItem href='/logout'>Logout</MDBDropdownItem>
+                    </MDBDropdownMenu>
+                    )
                   </MDBDropdown>
                 </MDBNavItem>
               ) : (
@@ -127,13 +127,12 @@ class Settings extends React.Component {
                     <MDBNavLink to='/settings'>Settings</MDBNavLink>
                     <MDBNavLink to='/logout'>Logout</MDBNavLink>
                   </>
-                  {/* ) : ( */}
-                  {/* <>
-                      <MDBNavLink to='/explore-tours'>Explore Tours</MDBNavLink>
-                      <MDBNavLink to='/settings'>Settings</MDBNavLink>
-                      <MDBNavLink to='logout'>Logout</MDBNavLink>
-                    </> */}
-                  )}
+                  ) : (
+                  <>
+                    <MDBNavLink to='/explore-tours'>Explore Tours</MDBNavLink>
+                    <MDBNavLink to='/settings'>Settings</MDBNavLink>
+                    <MDBNavLink to='logout'>Logout</MDBNavLink>
+                  </>
                 </MDBNavItem>
               )}
             </MDBNavbarNav>

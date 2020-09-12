@@ -10,7 +10,6 @@ import {
   MDBBtn,
   MDBIcon,
 } from "mdbreact";
-import firebase from "firebase/app";
 
 class SignUp extends Component {
   state = {

@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
 import { getSingleUserById, updateTour, deleteTour } from "../actions";
 import "./AddTour.css";
-import { Redirect } from "react-router";
 
 import {
   MDBNavbar,
@@ -401,7 +400,7 @@ class UpdateTour extends Component {
                           value={this.state.tourPrice}
                           style={{ color: "black", width: "6rem" }}
                           onValueChange={(values) => {
-                            const { formattedValue, value } = values;
+                            const { value } = values;
                             this.setState((state) => {
                               return {
                                 ...state,
