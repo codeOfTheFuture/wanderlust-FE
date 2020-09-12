@@ -65,7 +65,7 @@ class Home extends React.Component {
                   }}
                 >
                   <a
-                    href='https://lambdawanderlust.netlify.com/'
+                    href='https://www.about-wanderlust.jeff-oliver.com'
                     style={{ textDecoration: "none", color: "white" }}
                   >
                     About

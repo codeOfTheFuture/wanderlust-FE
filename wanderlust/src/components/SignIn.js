@@ -113,7 +113,7 @@ class SignIn extends React.Component {
                   }}
                 >
                   <MDBIcon fab icon='facebook' size='2x' className='px-2' />
-                  Sign In with Facebook
+                  Continue with Facebook
                 </MDBBtn>
                 <MDBBtn
                   onClick={(event) => this.handleSignIn(event, "google")}
@@ -125,7 +125,7 @@ class SignIn extends React.Component {
                   }}
                 >
                   <MDBIcon fab icon='google' size='2x' className='px-2' />
-                  Sign In with Google
+                  Continue with Google
                 </MDBBtn>
               </div>
               <div
