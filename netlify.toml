@@ -1,5 +1,5 @@
 [build]
-base = "wanderlust/"
+base = "wanderlust-FE/"
 publish = "wanderlust/build/"
 command = "npm run build"
 
