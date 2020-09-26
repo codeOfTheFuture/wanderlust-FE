@@ -54,9 +54,9 @@ class ExploreTours extends Component {
     });
   };
 
-  setSelected(searchterm) {
+  setSelected(searchTerm) {
     this.setState({
-      selected: searchterm,
+      selected: searchTerm,
     });
   }
 
@@ -66,7 +66,7 @@ class ExploreTours extends Component {
       .auth()
       .signOut()
       .then(() => {
-        this.props.history.push("/signin");
+        this.props.history.push("/");
       });
   };
 
@@ -140,25 +140,28 @@ class ExploreTours extends Component {
                       <MDBDropdownItem
                         onClick={() => this.setSelected("Jungle")}
                       >
-                        Jungle
+                        Walking
                       </MDBDropdownItem>
                       <MDBDropdownItem
                         onClick={() => this.setSelected("Desert")}
                       >
-                        Desert
+                        Bus
                       </MDBDropdownItem>
                       <MDBDropdownItem
                         onClick={() => this.setSelected("Cruise")}
                       >
-                        Cruise
+                        Boat
                       </MDBDropdownItem>
                       <MDBDropdownItem
                         onClick={() => this.setSelected("Outdoor")}
                       >
-                        Outdoor
+                        Helicopter
                       </MDBDropdownItem>
                       <MDBDropdownItem onClick={() => this.setSelected("City")}>
                         City
+                      </MDBDropdownItem>
+                      <MDBDropdownItem onClick={() => this.setSelected("City")}>
+                        Mountains
                       </MDBDropdownItem>
                     </MDBDropdownMenu>
                   </MDBDropdown>
@@ -226,7 +229,7 @@ class ExploreTours extends Component {
 
           <MDBView src='https://i.imgur.com/eAs1xr6.png'>
             <MDBMask
-              overlay='black-light'
+              overlay='black-strong'
               className='flex-center flex-column text-white text-center'
             >
               <h2
@@ -260,7 +263,7 @@ class ExploreTours extends Component {
             value={this.state.selected}
             name='selected'
             onChange={this.handleInput}
-            autoComplete='off'
+            autoComplete='on'
           ></input>
           <button
             className='search-button'

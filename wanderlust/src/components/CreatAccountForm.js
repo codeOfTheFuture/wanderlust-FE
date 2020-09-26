@@ -16,10 +16,10 @@ import {
 import { MDBCard, MDBCardBody, MDBCardText } from "mdbreact";
 
 class CreateAccountForm extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
-      isTourGuide: false,
+      isTourGuide: null,
       first_name: "",
       last_name: "",
       phone_number: "",
@@ -32,10 +32,16 @@ class CreateAccountForm extends Component {
 
   componentDidMount() {
     this.props.getSingleUserById();
+    this.setState((state) => {
+      return {
+        ...state,
+        isTourGuide: false,
+      };
+    });
   }
 
   componentWillReceiveProps() {
-    console.log("Current user", this.props.user);
+    console.log("Current user", this.props.currentUser);
   }
 
   onClick() {
@@ -45,21 +51,12 @@ class CreateAccountForm extends Component {
   }
 
   handleSelect = (value) => {
-    if (value) {
-      this.setState((state) => {
-        return {
-          ...state,
-          isTourGuide: !state.isTourGuide,
-        };
-      });
-    } else {
-      this.setState((state) => {
-        return {
-          ...state,
-          isTourGuide: !state.isTourGuide,
-        };
-      });
-    }
+    this.setState((state) => {
+      return {
+        ...state,
+        isTourGuide: value[0] === "tourGuide" ? true : false,
+      };
+    });
   };
 
   handleInputChanges = (e) => {
@@ -79,7 +76,7 @@ class CreateAccountForm extends Component {
           phone_number: "",
         };
       });
-      if (this.props.currentUser.isTourGuide) {
+      if (this.state.isTourGuide) {
         this.props.history.push("/dashboard");
       } else {
         this.props.history.push("/explore-tours");
@@ -168,7 +165,7 @@ class CreateAccountForm extends Component {
                               required
                               getValue={this.handleSelect}
                               className='form-control'
-                              color='secondary'
+                              color='primary'
                               outline
                               style={{
                                 display: "flex",
@@ -183,10 +180,10 @@ class CreateAccountForm extends Component {
                                 <MDBSelectOption disabled>
                                   Choose account type
                                 </MDBSelectOption>
-                                <MDBSelectOption value={true}>
+                                <MDBSelectOption value={"tourGuide"}>
                                   Tour Guide
                                 </MDBSelectOption>
-                                <MDBSelectOption value={false}>
+                                <MDBSelectOption value={"tourist"}>
                                   Tourist
                                 </MDBSelectOption>
                               </MDBSelectOptions>

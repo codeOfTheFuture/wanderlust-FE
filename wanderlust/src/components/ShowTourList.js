@@ -12,7 +12,7 @@ class ShowTourList extends Component {
     return (
       <div className='showTourList'>
         {this.props.allTours.map((tour) => {
-          return <ShowTourCard showTour={tour} />;
+          return <ShowTourCard showTour={tour} key={tour.id} id={tour.id} />;
         })}
       </div>
     );

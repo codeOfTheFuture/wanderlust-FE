@@ -218,7 +218,6 @@ export const getAllTours = () => (dispatch) => {
 };
 
 // Get all of a single guides offered tours
-// Get all tours
 export const FETCHING_OFFERED_TOURS_START = "FETCH_OFFERED_TOURS_START";
 export const FETCHING_OFFERED_TOURS_SUCCESS = "FETCHING_OFFERED_TOURS_SUCCESS";
 export const FETCHING_OFFERED_TOURS_FAILURE = "FETCHING_OFFERED_TOURS_FAILURE";

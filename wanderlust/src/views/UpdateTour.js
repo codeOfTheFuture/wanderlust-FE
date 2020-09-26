@@ -145,9 +145,7 @@ class UpdateTour extends Component {
   };
 
   handleDelete() {
-    this.props.deleteTour(this.state.id).then(() => {
-      this.props.history.push("/dashboard");
-    });
+    this.props.deleteTour(this.state.id);
   }
 
   render() {
@@ -448,7 +446,10 @@ class UpdateTour extends Component {
                         <MDBBtn color='secondary' onClick={this.toggle}>
                           Go Back
                         </MDBBtn>
-                        <MDBBtn color='danger' onClick={this.handleDelete}>
+                        <MDBBtn
+                          color='danger'
+                          onClick={() => this.handleDelete()}
+                        >
                           Delete
                         </MDBBtn>
                       </div>

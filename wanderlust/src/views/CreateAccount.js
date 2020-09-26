@@ -9,8 +9,8 @@ import { MDBMask, MDBView } from "mdbreact";
 import { Redirect } from "react-router";
 
 class Settings extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       username: "",
       password: "",
@@ -27,7 +27,7 @@ class Settings extends React.Component {
     }
     return (
       <div>
-        <NavBar />
+        {/* <NavBar /> */}
         <MDBView src='https://i.imgur.com/Khv7HRX.png'>
           <MDBMask
             overlay='black-light'
