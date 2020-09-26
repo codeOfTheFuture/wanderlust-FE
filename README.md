@@ -21,7 +21,7 @@ Wanderlust provides an airbnb like platform for travelers and guides to match up
 
 ## Architecture and Workflow
 
-The backend and database is handled by [Rogelio Caballero](https://github.com/rogercp) with a solution of Java Spring Boot and PostgreSQL. The backend is RESTful and will provide specific endpoints to communicate with the Frontend through HTTP requests and JSON-Objects. The backend is deployed at Heroku.
+The backend and database is handled by [Jeffrey Oliver](https://github.com/codeOfTheFuture/Wanderlust-BE) with a solution of Node Js and Sqlite3. The backend is RESTful and will provide specific endpoints to communicate with the Frontend through HTTP requests and JSON-Objects. The backend is deployed at Heroku.
 
 The Frontend is built by the authors mentioned below. It runs JavaScript and uses a State Driven Development (SDD) approach with React and React Redux. For the deployment a Continuous Deployment (CD) solution was chosen through [Netlify](https://www.netlify.com/) and then hosted under selfowned domains.
 
