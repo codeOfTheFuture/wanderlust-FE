@@ -7,6 +7,12 @@ import {
 import { ADD_TOUR_START, ADD_TOUR_SUCCESS, ADD_TOUR_FAILURE } from "../actions";
 
 import {
+  SET_LAT_LNG_START,
+  SET_LAT_LNG_SUCCESS,
+  SET_LAT_LNG_FAILURE,
+} from "../actions";
+
+import {
   UPDATE_TOUR_START,
   UPDATE_TOUR_SUCCESS,
   UPDATE_TOUR_FAILURE,
@@ -35,8 +41,12 @@ const initialState = {
   fetchingTours: false,
   fetchingToursErr: "",
   tour: {},
+  lat,
+  lng,
   addingTour: false,
   addingTourErr: "",
+  settingLatLng: false,
+  settingLatLngError: "",
   updatingTour: false,
   updatingTourErr: "",
   deletingTour: false,
@@ -168,6 +178,28 @@ const tourReducer = (state = initialState, action) => {
         ...state,
         addingTour: false,
         addingTourError: action.payload,
+      };
+    case SET_LAT_LNG_START:
+      console.log("set tour lat lng start");
+      return {
+        ...state,
+        settingLatLng: true,
+        settingLatLngError: "",
+      };
+    case SET_LAT_LNG_SUCCESS:
+      console.log("set tour lat lng success");
+      return {
+        ...state,
+        settingLatLng: false,
+        lat: action.payload.lat,
+        lng: action.payload.lng,
+      };
+    case SET_LAT_LNG_FAILURE:
+      console.log("set tour lat lng failure");
+      return {
+        ...state,
+        settingLatLng: false,
+        settingLatLngError: action.payload,
       };
     default:
       return state;

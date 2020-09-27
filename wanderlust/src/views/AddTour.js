@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
-import { addTour, getSingleUserById } from "../actions";
+import { addTour, getSingleUserById, setLatLong } from "../actions";
 import NavBar from "../components/NavBar";
 import Map from "../components/Map";
 import usePlacesAutocomplete, {
@@ -109,6 +109,8 @@ class AddTour extends Component {
           lng,
         };
       });
+
+    this.props.setLatLng(lat, lng);
   };
 
   render() {
@@ -323,7 +325,13 @@ class AddTour extends Component {
                     </div>
                   </div>
                 </div>
-                <div style={{ marginTop: "3rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <MDBBtn
                     className='btnAddTour'
                     gradient='blue'
@@ -356,11 +364,11 @@ class AddTour extends Component {
                     //   marginLeft: "0",
                     //   height: "3rem",
                     // }}
-                    color='danger'
+                    color='dark'
                     type='submit'
                     onClick={() => this.redirectDashBoard()}
                   >
-                    Cancel
+                    Go Back
                   </MDBBtn>
                 </div>
               </form>
@@ -378,9 +386,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { addTour, getSingleUserById })(
-  AddTour
-);
+export default connect(mapStateToProps, {
+  addTour,
+  getSingleUserById,
+  setLatLong,
+})(AddTour);
 
 function Search({ setLatLng }) {
   // const [libraries] = useState(["places"]);

@@ -443,7 +443,7 @@ class UpdateTour extends Component {
                       <h3 style={{ color: "red" }}>Warning:</h3>
                       <p style={{ color: "red" }}>This cannot be undone!</p>
                       <div className='d=flex' color='danger'>
-                        <MDBBtn color='secondary' onClick={this.toggle}>
+                        <MDBBtn color='dark' onClick={this.toggle}>
                           Go Back
                         </MDBBtn>
                         <MDBBtn
@@ -457,10 +457,10 @@ class UpdateTour extends Component {
                   </MDBModal>
                   <MDBBtn
                     className='btnCancel'
-                    color='info'
+                    color='dark'
                     onClick={() => this.redirectDashBoard()}
                   >
-                    Cancel
+                    Go Back
                   </MDBBtn>
                   <MDBBtn
                     className='btnCancel'
