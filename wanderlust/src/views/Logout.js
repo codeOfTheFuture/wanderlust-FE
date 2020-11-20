@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect } from "react-router";
 
-class Logout extends React.Component {
-  componentDidMount() {
+const Logout = () => {
+  useEffect(() => {
     localStorage.removeItem("firebase_jwt");
-  }
+  }, []);
 
-  render() {
-    return <Redirect to='/' />;
-  }
-}
+  return <Redirect to='/signin' />;
+};
 
 export default Logout;

@@ -12,8 +12,8 @@ import {
 } from "mdbreact";
 
 class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       email: "",
       password: "",

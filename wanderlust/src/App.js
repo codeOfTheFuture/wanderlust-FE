@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import SignUp from "./views/SignUp";
 import SignIn from "./views/SignIn";
 import Dashboard from "./views/Dashboard";
@@ -18,14 +18,17 @@ import "mdbreact/dist/css/mdb.css";
 function App() {
   return (
     <div className='App'>
-      <Route exact path='/' render={(props) => <SignIn {...props} />} />
-      <Route exact path='/signup' render={(props) => <SignUp {...props} />} />
-      <Route exact path='/dashboard' render={() => <Dashboard />} />
+      <Route exact path='/'>
+        <Redirect to='explore-tours'></Redirect>
+      </Route>
       <Route
         exact
         path='/explore-tours'
         render={(props) => <ExploreTours {...props} />}
       />
+      <Route exact path='/signin' render={(props) => <SignIn {...props} />} />
+      <Route exact path='/signup' render={(props) => <SignUp {...props} />} />
+      <Route exact path='/dashboard' render={() => <Dashboard />} />
       <Route exact path='/tours/:id' render={(props) => <Tour {...props} />} />
       <Route
         exact

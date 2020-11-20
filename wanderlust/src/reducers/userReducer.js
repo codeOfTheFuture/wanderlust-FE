@@ -81,6 +81,7 @@ const userReducer = (state = initialState, action) => {
         fetchingUser: true,
       };
     case GET_SINGLE_USER_SUCCESS:
+      console.log("userReducer action.payload>>>>>>>>", action.payload);
       return {
         ...state,
         fetchingUser: false,

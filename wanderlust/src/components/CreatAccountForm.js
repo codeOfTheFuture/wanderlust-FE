@@ -20,12 +20,12 @@ class CreateAccountForm extends Component {
     super();
     this.state = {
       isTourGuide: null,
-      first_name: "",
-      last_name: "",
-      phone_number: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
       isRegistered: true,
-      // displayName: "",
-      // profilePhoto: "",
+      displayName: "",
+      photoURL: "",
     };
     this.onClick = this.onClick.bind(this);
   }
@@ -42,6 +42,13 @@ class CreateAccountForm extends Component {
 
   componentWillReceiveProps() {
     console.log("Current user", this.props.currentUser);
+    this.setState((state) => {
+      return {
+        ...state,
+        photoURL: this.props.currentUser.photoURL,
+        displayName: this.props.currentUser.displayName,
+      };
+    });
   }
 
   onClick() {
@@ -71,9 +78,9 @@ class CreateAccountForm extends Component {
       this.setState((state) => {
         return {
           ...state,
-          first_name: "",
-          last_name: "",
-          phone_number: "",
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
         };
       });
       if (this.state.isTourGuide) {
@@ -120,10 +127,10 @@ class CreateAccountForm extends Component {
                           <h3 className='h3 poppins-font main-color-blue'>
                             {this.state.displayName}
                           </h3>
-                          <span className='h5 poppins-font main-color-blue'>
+                          <span className='h5 mt-3 poppins-font main-color-blue'>
                             Profile Photo
                           </span>
-                          <div
+                          <img
                             style={{
                               display: "flex",
                               justifyContent: "center",
@@ -133,16 +140,10 @@ class CreateAccountForm extends Component {
                               border: "1px dashed black",
                               borderRadius: "50%",
                               marginTop: "25%",
+                              backgroundSize: "cover",
                             }}
-                          >
-                            <image
-                              src={`${this.state.profilePhoto}`}
-                              style={{
-                                borderRadius: "50%",
-                                width: "100%",
-                              }}
-                            />
-                          </div>
+                            src={this.state.photoURL}
+                          />
                         </div>
                         <div
                           className='right-side'
@@ -197,8 +198,8 @@ class CreateAccountForm extends Component {
                               error='wrong'
                               success='right'
                               autoComplete='off'
-                              name='first_name'
-                              value={this.state.first_name}
+                              name='firstName'
+                              value={this.state.firstName}
                               onChange={this.handleInputChanges}
                               style={{ width: "20rem", marginBottom: "0rem" }}
                             />
@@ -210,8 +211,8 @@ class CreateAccountForm extends Component {
                               error='wrong'
                               success='right'
                               autoComplete='off'
-                              name='last_name'
-                              value={this.state.last_name}
+                              name='lastName'
+                              value={this.state.lastName}
                               onChange={this.handleInputChanges}
                               style={{ width: "20rem", marginBottom: "0rem" }}
                             />
@@ -223,8 +224,8 @@ class CreateAccountForm extends Component {
                               error='wrong'
                               success='right'
                               autoComplete='on'
-                              name='phone_number'
-                              value={this.state.phone_number}
+                              name='phoneNumber'
+                              value={this.state.phoneNumber}
                               onChange={this.handleInputChanges}
                               style={{ width: "20rem", marginBottom: "0rem" }}
                             />

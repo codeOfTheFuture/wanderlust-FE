@@ -15,8 +15,6 @@ class SignUp extends Component {
   state = {
     email: "",
     password: "",
-    // isTourGuide: false,
-    // error: null,
   };
 
   handleInputChanges = (e) => {
@@ -34,7 +32,7 @@ class SignUp extends Component {
           const { isRegistered, isTourGuide } = this.props.currentUser;
           console.log("isRegistered: ", isRegistered);
           if (isTourGuide) this.props.history.push("/dashboard");
-          else this.props.history.push("/explore-tours");
+          else this.props.history.push("/");
         }
       }
       this.props.history.push("/create-account");
@@ -116,7 +114,7 @@ class SignUp extends Component {
                   }}
                 >
                   <MDBIcon fab icon='facebook' size='2x' className='px-2' />
-                  Sign In with Facebook
+                  Continue with Facebook
                 </MDBBtn>
                 <MDBBtn
                   onClick={(event) => this.handleSignUp(event, "google")}
@@ -128,7 +126,7 @@ class SignUp extends Component {
                   }}
                 >
                   <MDBIcon fab icon='google' size='2x' className='px-2' />
-                  Sign In with Google
+                  Continue with Google
                 </MDBBtn>
               </div>
               <div
@@ -138,7 +136,7 @@ class SignUp extends Component {
                 <span className='h9 poppins-font'>
                   Already have an account?{" "}
                   <strong className='main-color-blue linker'>
-                    <Link exact to='/'>
+                    <Link exact to='/signin'>
                       Sign In
                     </Link>
                   </strong>
