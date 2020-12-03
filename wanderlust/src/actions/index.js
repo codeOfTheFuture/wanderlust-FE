@@ -18,18 +18,39 @@ export const signUp = (method, accountData) => {
       // Sign up with email and password
       if (method === "email") {
         const { email, password } = accountData;
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        user = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+
+        if (!user.additionalUserInfo.isNewUser) {
+          await firebase.auth().signOut();
+          console.log("facebook auth>>>>>", "account already exists");
+          throw new Error("Account Already Exists - Please Sign In");
+        }
       } else if (method === "facebook") {
         // Sign up with Facebook
         provider = await new firebase.auth.FacebookAuthProvider();
 
-        await firebase.auth().signInWithPopup(provider);
+        user = await firebase.auth().signInWithPopup(provider);
+
+        if (!user.additionalUserInfo.isNewUser) {
+          await firebase.auth().signOut();
+          console.log("facebook auth>>>>>", "account already exists");
+          throw new Error("Account Already Exists - Please Sign In");
+        }
       } else {
         // Sign up with Google
         provider = await new firebase.auth.GoogleAuthProvider();
 
         user = await firebase.auth().signInWithPopup(provider);
+
         console.log("user>>>>", user);
+
+        if (!user.additionalUserInfo.isNewUser) {
+          await firebase.auth().signOut();
+          console.log("facebook auth>>>>>", "account already exists");
+          throw new Error("Account Already Exists - Please Sign In");
+        }
       }
 
       const { displayName, phoneNumber, photoURL } = user.user;

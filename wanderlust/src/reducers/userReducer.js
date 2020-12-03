@@ -41,6 +41,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         signingUp: true,
+        signUpErr: "",
       };
     case SIGNUP_SUCCESS:
       return {

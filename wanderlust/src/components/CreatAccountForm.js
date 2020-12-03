@@ -32,12 +32,6 @@ class CreateAccountForm extends Component {
 
   componentDidMount() {
     this.props.getSingleUserById();
-    this.setState((state) => {
-      return {
-        ...state,
-        isTourGuide: false,
-      };
-    });
   }
 
   componentWillReceiveProps() {

@@ -1,25 +1,21 @@
 import React from "react";
-import SignUp from "../components/SignUp";
+import SignIn from "../../components/SignIn";
+import Navbar from "../../components/NavBar";
 import { Route } from "react-router-dom";
 import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavbarToggler,
-  MDBCollapse,
-  MDBNavItem,
-  MDBNavLink,
   MDBMask,
   MDBView,
+  MDBCard,
+  MDBCardBody,
+  MDBCardText,
+  MDBCol,
 } from "mdbreact";
 
-import { MDBCard, MDBCardBody, MDBCardText, MDBCol } from "mdbreact";
-
-import "../App.css";
+import "../../App.css";
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       collapse: false,
       isWideEnough: false,
@@ -36,7 +32,8 @@ class Home extends React.Component {
     return (
       <div>
         <header>
-          <MDBNavbar
+          <Navbar {...this.props} />
+          {/* <MDBNavbar
             color='unique-color'
             fixed='top'
             dark
@@ -87,7 +84,7 @@ class Home extends React.Component {
                 </MDBNavItem>
               </MDBNavbarNav>
             </MDBCollapse>
-          </MDBNavbar>
+          </MDBNavbar> */}
         </header>
         <MDBView src='https://i.imgur.com/4ox5JIo.png'>
           <MDBMask
@@ -102,7 +99,7 @@ class Home extends React.Component {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "14rem",
+                    marginTop: "50%",
                     marginLeft: "25rem",
                     padding: "2rem",
                     width: "35rem",
@@ -111,8 +108,8 @@ class Home extends React.Component {
                   <MDBCardBody>
                     <MDBCardText>
                       <Route
-                        path='/signup'
-                        render={(props) => <SignUp {...props} />}
+                        path='/signin'
+                        render={(props) => <SignIn {...props} />}
                       />
                     </MDBCardText>
                   </MDBCardBody>

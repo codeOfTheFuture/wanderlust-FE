@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getAllTours, getSingleUserById } from "../actions";
-import NavBar from "../components/NavBar";
-import ShowTourList from "../components/ShowTourList";
-// import { Redirect } from "react-router";
+import { getAllTours, getSingleUserById } from "../../actions";
+import NavBar from "../../components/NavBar";
+import ShowTourList from "../../components/ShowTourList";
 import "./explore-tours.css";
-import firebase from "firebase/app";
 
 import { MDBContainer, MDBMask, MDBView } from "mdbreact";
 
@@ -42,23 +40,13 @@ class ExploreTours extends Component {
     });
   }
 
-  handleSignOut = () => {
-    localStorage.removeItem("firebase_jwt");
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.props.history.push("/signin");
-      });
-  };
-
   render() {
     let { displayName, first_name } = this.props.currentUser;
     if (!displayName) displayName = first_name;
     return (
       <div>
         <header>
-          <NavBar handleSignOut={this.handleSignOut} />
+          <NavBar {...this.props} />
 
           <MDBView src='https://i.imgur.com/eAs1xr6.png'>
             <MDBMask

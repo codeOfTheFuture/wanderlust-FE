@@ -9,12 +9,15 @@ import {
   MDBInput,
   MDBBtn,
   MDBIcon,
+  MDBAlert,
+  MDBAnimation,
 } from "mdbreact";
 
 class SignUp extends Component {
   state = {
     email: "",
     password: "",
+    error: false,
   };
 
   handleInputChanges = (e) => {
@@ -27,24 +30,42 @@ class SignUp extends Component {
     event.preventDefault();
     const { email, password } = this.state;
     this.props.signUp(method, { email, password }).then(() => {
-      if (method === "google" || method === "facebook") {
-        if (this.props.currentUser) {
-          const { isRegistered, isTourGuide } = this.props.currentUser;
-          console.log("isRegistered: ", isRegistered);
-          if (isTourGuide) this.props.history.push("/dashboard");
-          else this.props.history.push("/");
-        }
+      if (!this.props.signUpErr) {
+        this.props.history.push("/create-account");
+      } else {
+        this.setState((state) => {
+          return {
+            ...state,
+            error: true,
+          };
+        });
+        setTimeout(() => {
+          this.setState((state) => {
+            return {
+              ...state,
+              error: false,
+            };
+          });
+        }, 5000);
       }
-      this.props.history.push("/create-account");
     });
   };
 
   render() {
     return (
       <div>
-        <span className='h4 poppins-font main-color-blue'>
-          Sign Up for Wanderlust
-        </span>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {this.state.error && (
+            <MDBAnimation type='fadeIn fadeOut' delay='3s'>
+              <MDBAlert color='danger' dismiss>
+                {this.props.signUpErr.message}
+              </MDBAlert>
+            </MDBAnimation>
+          )}
+          <span className='h4 poppins-font main-color-blue'>
+            Sign Up for Wanderlust
+          </span>
+        </div>
         <MDBContainer>
           <MDBRow>
             <MDBCol>
@@ -54,7 +75,7 @@ class SignUp extends Component {
                     label='Email'
                     group
                     size='sm'
-                    type='email'
+                    type='text'
                     validate
                     error='wrong'
                     success='right'
@@ -153,6 +174,7 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.userReducer.currentUser,
+    signUpErr: state.userReducer.signUpErr,
   };
 };
 

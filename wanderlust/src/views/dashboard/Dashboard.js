@@ -3,13 +3,13 @@ import React from "react";
 import { MDBContainer, MDBMask, MDBView } from "mdbreact";
 import "./Dashboard.css";
 
-import NavBar from "../components/NavBar";
-import OfferedToursList from "../components/OfferedToursList";
+import NavBar from "../../components/NavBar";
+import OfferedToursList from "../../components/OfferedToursList";
 import {
   getAllTours,
   getSingleUserById,
   getSingleGuidesTours,
-} from "../actions";
+} from "../../actions";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 
@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
     return (
       <div>
         <header className='dashboardHeader'>
-          <NavBar />
+          <NavBar {...this.props} currentUser={this.props.currentUser} />
           <MDBView src='/assets/mountains2.png' className='background'>
             <MDBMask className='flex-center flex-column text-white text-center rgba-black-strong'>
               {this.props.currentUser.first_name && (

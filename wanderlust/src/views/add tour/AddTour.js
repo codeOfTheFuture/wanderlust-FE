@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
-import { addTour, getSingleUserById } from "../actions";
-import NavBar from "../components/NavBar";
-import Map from "../components/Map";
+import { addTour, getSingleUserById } from "../../actions";
+import NavBar from "../../components/NavBar";
+import Map from "../../components/Map";
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -117,7 +117,7 @@ class AddTour extends Component {
     return (
       <div>
         <header className='addTourHeader'>
-          <NavBar />
+          <NavBar {...this.props} currentUser={this.props.currentUser} />
           <MDBView src='/assets/mapwithcamera.jpg' className='d-flex h-100'>
             <MDBMask className='flex-center flex-column text-white text-center rgba-black-strong'>
               <h2
