@@ -69,8 +69,8 @@ export const signUp = (method, accountData) => {
       localStorage.setItem("firebase_jwt", idToken);
 
       const newUser = await axios.post(
-        // "https://wanderlust-nodejs-be.herokuapp.com/api/auth/register",
-        "http://localhost:4000/api/auth/register",
+        "https://wanderlust-nodejs-be.herokuapp.com/api/auth/register",
+        // "http://localhost:4000/api/auth/register",
         { userInfo },
         {
           headers: {
@@ -120,8 +120,8 @@ export const signIn = (method, credentials) => {
       localStorage.setItem("firebase_jwt", idToken);
 
       const user = await axios.post(
-        // "https://wanderlust-nodejs-be.herokuapp.com/api/auth/login",
-        "http://localhost:4000/api/auth/login",
+        "https://wanderlust-nodejs-be.herokuapp.com/api/auth/login",
+        // "http://localhost:4000/api/auth/login",
         {},
         {
           headers: {
@@ -137,32 +137,6 @@ export const signIn = (method, credentials) => {
   };
 };
 
-// // Guides
-
-// // Get all GUIDES
-// export const FETCHING_GUIDES_START = "FETCHING_GUIDES_START";
-// export const FETCHING_GUIDES_SUCCESS = "FETCHING_GUIDES_SUCCESS";
-// export const FETCHING_GUIDES_FAILURE = "FETCHING_GUIDES_FAILURE";
-
-// export const getAllGuides = () => (dispatch) => {
-//   dispatch({ type: FETCHING_GUIDES_START });
-//   loadProgressBar();
-//   axios
-//     .get("https://roger-wanderlust.herokuapp.com/guides/guides", {
-//       headers: {
-//         Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
-//       },
-//     })
-//     .then((res) => {
-//       console.log("Get all GUIDES: ", res.data);
-//       dispatch({ type: FETCHING_GUIDES_SUCCESS, payload: res.data });
-//     })
-//     .catch((err) => {
-//       console.log("Get all GUIDES err: ", err);
-//       dispatch({ type: FETCHING_GUIDES_FAILURE, payload: err });
-//     });
-// };
-
 // Get a user by id action creator
 export const GET_SINGLE_USER_FETCHING = "GET_SINGLE_USER_FETCHING";
 export const GET_SINGLE_USER_SUCCESS = "GET_SINGLE_USER_SUCCESS";
@@ -175,8 +149,8 @@ export const getSingleUserById = () => {
     const idToken = localStorage.getItem("firebase_jwt");
     try {
       const user = await axios.get(
-        // "https://wanderlust-nodejs-be.herokuapp.com/api/users/userId",
-        "http://localhost:4000/api/users/userId",
+        "https://wanderlust-nodejs-be.herokuapp.com/api/users/userId",
+        // "http://localhost:4000/api/users/userId",
         {
           headers: {
             Authorization: idToken,
@@ -207,8 +181,8 @@ export const updateUserById = (userData) => {
       const idToken = localStorage.getItem("firebase_jwt");
 
       const updatedUser = await axios.put(
-        // "https://wanderlust-nodejs-be.herokuapp.com/api/users/update/user",
-        "http://localhost:4000/api/users/update/user",
+        "https://wanderlust-nodejs-be.herokuapp.com/api/users/update/user",
+        // "http://localhost:4000/api/users/update/user",
         userData,
         {
           headers: {
@@ -240,8 +214,8 @@ export const getAllTours = () => (dispatch) => {
 
   axios
     .get(
-      // "https://wanderlust-nodejs-be.herokuapp.com/api/tours",
-      "http://localhost:4000/api/tours",
+      "https://wanderlust-nodejs-be.herokuapp.com/api/tours",
+      // "http://localhost:4000/api/tours",
       {
         headers: {
           Authorization: idToken,
@@ -271,8 +245,8 @@ export const getSingleGuidesTours = () => {
     const idToken = localStorage.getItem("firebase_jwt");
     try {
       const tours = await axios.get(
-        // "https://wanderlust-nodejs-be.herokuapp.com/api/users/offered-tours",
-        "http://localhost:4000/api/users/offered-tours",
+        "https://wanderlust-nodejs-be.herokuapp.com/api/users/offered-tours",
+        // "http://localhost:4000/api/users/offered-tours",
         {
           headers: {
             Authorization: idToken,
@@ -301,8 +275,8 @@ export const getTourById = (id) => (dispatch) => {
 
   axios
     .get(
-      // `https://wanderlust-nodejs-be.herokuapp.com/api/tours/${id}`,
-      `http://localhost:4000/api/tours/${id}`,
+      `https://wanderlust-nodejs-be.herokuapp.com/api/tours/${id}`,
+      // `http://localhost:4000/api/tours/${id}`,
       {
         headers: {
           Authorization: idToken,
@@ -333,8 +307,8 @@ export const addTour = (tour) => (dispatch) => {
 
   axios
     .post(
-      // "https://wanderlust-nodejs-be.herokuapp.com/api/tours",
-      "http://localhost:4000/api/tours",
+      "https://wanderlust-nodejs-be.herokuapp.com/api/tours",
+      // "http://localhost:4000/api/tours",
       tour,
       {
         headers: {
