@@ -137,6 +137,7 @@ class CreateAccountForm extends Component {
                               backgroundSize: "cover",
                             }}
                             src={this.state.photoURL}
+                            alt='Profile Photo'
                           />
                         </div>
                         <div

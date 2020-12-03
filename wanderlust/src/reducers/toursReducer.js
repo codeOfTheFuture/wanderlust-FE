@@ -6,11 +6,11 @@ import {
 
 import { ADD_TOUR_START, ADD_TOUR_SUCCESS, ADD_TOUR_FAILURE } from "../actions";
 
-import {
-  SET_LAT_LNG_START,
-  SET_LAT_LNG_SUCCESS,
-  SET_LAT_LNG_FAILURE,
-} from "../actions";
+// import {
+//   SET_LAT_LNG_START,
+//   SET_LAT_LNG_SUCCESS,
+//   SET_LAT_LNG_FAILURE,
+// } from "../actions";
 
 import {
   UPDATE_TOUR_START,
