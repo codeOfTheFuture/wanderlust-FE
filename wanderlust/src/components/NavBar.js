@@ -9,7 +9,7 @@ import { MDBNavbar, MDBNavbarToggler, MDBCollapse } from "mdbreact";
 
 const NavBar = (props) => {
   const [collapse, setCollapse] = useState(false);
-  const [isWideEnough, setIsWideEnough] = useState(false);
+  const [isWideEnough] = useState(false);
 
   const handleSignOut = () => {
     localStorage.removeItem("firebase_jwt");

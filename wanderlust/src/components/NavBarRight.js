@@ -68,6 +68,7 @@ const NavBarRight = (props) => {
                       borderRadius: "50%",
                       marginRight: "0.3rem",
                     }}
+                    alt='Profile Photo'
                   />
                   <span
                     style={{
@@ -119,6 +120,7 @@ const NavBarRight = (props) => {
                         borderRadius: "50%",
                         marginRight: "0.3rem",
                       }}
+                      alt='Profile Photo'
                     />
                     <span
                       style={{
