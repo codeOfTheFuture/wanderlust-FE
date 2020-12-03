@@ -179,28 +179,28 @@ const tourReducer = (state = initialState, action) => {
         addingTour: false,
         addingTourError: action.payload,
       };
-    case SET_LAT_LNG_START:
-      console.log("set tour lat lng start");
-      return {
-        ...state,
-        settingLatLng: true,
-        settingLatLngError: "",
-      };
-    case SET_LAT_LNG_SUCCESS:
-      console.log("set tour lat lng success");
-      return {
-        ...state,
-        settingLatLng: false,
-        lat: action.payload.lat,
-        lng: action.payload.lng,
-      };
-    case SET_LAT_LNG_FAILURE:
-      console.log("set tour lat lng failure");
-      return {
-        ...state,
-        settingLatLng: false,
-        settingLatLngError: action.payload,
-      };
+    // case SET_LAT_LNG_START:
+    //   console.log("set tour lat lng start");
+    //   return {
+    //     ...state,
+    //     settingLatLng: true,
+    //     settingLatLngError: "",
+    //   };
+    // case SET_LAT_LNG_SUCCESS:
+    //   console.log("set tour lat lng success");
+    //   return {
+    //     ...state,
+    //     settingLatLng: false,
+    //     lat: action.payload.lat,
+    //     lng: action.payload.lng,
+    //   };
+    // case SET_LAT_LNG_FAILURE:
+    //   console.log("set tour lat lng failure");
+    //   return {
+    //     ...state,
+    //     settingLatLng: false,
+    //     settingLatLngError: action.payload,
+    //   };
     default:
       return state;
   }

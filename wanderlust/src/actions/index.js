@@ -14,31 +14,64 @@ export const signUp = (method, accountData) => {
     let provider;
 
     try {
+      let user;
       // Sign up with email and password
       if (method === "email") {
         const { email, password } = accountData;
-        await firebase.auth().createUserWithEmailAndPassword(email, password);
+        user = await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password);
+
+        if (!user.additionalUserInfo.isNewUser) {
+          await firebase.auth().signOut();
+          console.log("facebook auth>>>>>", "account already exists");
+          throw new Error("Account Already Exists - Please Sign In");
+        }
       } else if (method === "facebook") {
         // Sign up with Facebook
         provider = await new firebase.auth.FacebookAuthProvider();
 
-        await firebase.auth().signInWithPopup(provider);
+        user = await firebase.auth().signInWithPopup(provider);
 
-        // const accessToken = result.credential.accessToken;
+        if (!user.additionalUserInfo.isNewUser) {
+          await firebase.auth().signOut();
+          console.log("facebook auth>>>>>", "account already exists");
+          throw new Error("Account Already Exists - Please Sign In");
+        }
       } else {
         // Sign up with Google
         provider = await new firebase.auth.GoogleAuthProvider();
 
-        await firebase.auth().signInWithPopup(provider);
+        user = await firebase.auth().signInWithPopup(provider);
+
+        console.log("user>>>>", user);
+
+        if (!user.additionalUserInfo.isNewUser) {
+          await firebase.auth().signOut();
+          console.log("facebook auth>>>>>", "account already exists");
+          throw new Error("Account Already Exists - Please Sign In");
+        }
       }
+
+      const { displayName, phoneNumber, photoURL } = user.user;
+      const { creationTime, lastSignInTime } = user.user.metadata;
+
+      const userInfo = {
+        displayName,
+        phoneNumber,
+        photoURL,
+        creationTime,
+        lastSignInTime,
+      };
 
       const idToken = await firebase.auth().currentUser.getIdToken(true);
 
       localStorage.setItem("firebase_jwt", idToken);
 
-      const user = await axios.post(
-        "https://wanderlust-nodejs-be.herokuapp.com/api/auth/register",
-        {},
+      const newUser = await axios.post(
+        // "https://wanderlust-nodejs-be.herokuapp.com/api/auth/register",
+        "http://localhost:4000/api/auth/register",
+        { userInfo },
         {
           headers: {
             Authorization: idToken,
@@ -46,7 +79,8 @@ export const signUp = (method, accountData) => {
         }
       );
 
-      dispatch({ type: SIGNUP_SUCCESS, payload: user.data.newUser });
+      console.log("new user>>>>>>", newUser.data);
+      dispatch({ type: SIGNUP_SUCCESS, payload: newUser.data });
     } catch (error) {
       dispatch({ type: SIGNUP_FAILURE, payload: error });
     }
@@ -76,7 +110,7 @@ export const signIn = (method, credentials) => {
 
         await firebase.auth().signInWithPopup(provider);
       } else {
-        // Sign up with Google
+        // Sign in with Google
         provider = await new firebase.auth.GoogleAuthProvider();
 
         await firebase.auth().signInWithPopup(provider);
@@ -86,7 +120,8 @@ export const signIn = (method, credentials) => {
       localStorage.setItem("firebase_jwt", idToken);
 
       const user = await axios.post(
-        "https://wanderlust-nodejs-be.herokuapp.com/api/auth/login",
+        // "https://wanderlust-nodejs-be.herokuapp.com/api/auth/login",
+        "http://localhost:4000/api/auth/login",
         {},
         {
           headers: {
@@ -94,7 +129,7 @@ export const signIn = (method, credentials) => {
           },
         }
       );
-
+      console.log("sign in>>>>>>", user);
       dispatch({ type: SIGNIN_SUCCESS, payload: user.data });
     } catch (error) {
       dispatch({ type: SIGNIN_FAILURE, payload: error });
@@ -102,31 +137,31 @@ export const signIn = (method, credentials) => {
   };
 };
 
-// Guides
+// // Guides
 
-// Get all GUIDES
-export const FETCHING_GUIDES_START = "FETCHING_GUIDES_START";
-export const FETCHING_GUIDES_SUCCESS = "FETCHING_GUIDES_SUCCESS";
-export const FETCHING_GUIDES_FAILURE = "FETCHING_GUIDES_FAILURE";
+// // Get all GUIDES
+// export const FETCHING_GUIDES_START = "FETCHING_GUIDES_START";
+// export const FETCHING_GUIDES_SUCCESS = "FETCHING_GUIDES_SUCCESS";
+// export const FETCHING_GUIDES_FAILURE = "FETCHING_GUIDES_FAILURE";
 
-export const getAllGuides = () => (dispatch) => {
-  dispatch({ type: FETCHING_GUIDES_START });
-  loadProgressBar();
-  axios
-    .get("https://roger-wanderlust.herokuapp.com/guides/guides", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
-      },
-    })
-    .then((res) => {
-      console.log("Get all GUIDES: ", res.data);
-      dispatch({ type: FETCHING_GUIDES_SUCCESS, payload: res.data });
-    })
-    .catch((err) => {
-      console.log("Get all GUIDES err: ", err);
-      dispatch({ type: FETCHING_GUIDES_FAILURE, payload: err });
-    });
-};
+// export const getAllGuides = () => (dispatch) => {
+//   dispatch({ type: FETCHING_GUIDES_START });
+//   loadProgressBar();
+//   axios
+//     .get("https://roger-wanderlust.herokuapp.com/guides/guides", {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("auth-token")}`,
+//       },
+//     })
+//     .then((res) => {
+//       console.log("Get all GUIDES: ", res.data);
+//       dispatch({ type: FETCHING_GUIDES_SUCCESS, payload: res.data });
+//     })
+//     .catch((err) => {
+//       console.log("Get all GUIDES err: ", err);
+//       dispatch({ type: FETCHING_GUIDES_FAILURE, payload: err });
+//     });
+// };
 
 // Get a user by id action creator
 export const GET_SINGLE_USER_FETCHING = "GET_SINGLE_USER_FETCHING";
@@ -134,13 +169,14 @@ export const GET_SINGLE_USER_SUCCESS = "GET_SINGLE_USER_SUCCESS";
 export const GET_SINGLE_USER_FAILURE = "GET_SINGLE_USER_FAILURE";
 
 export const getSingleUserById = () => {
-  return async (dispatch, getState, { getFirebase }) => {
+  return async (dispatch) => {
     loadProgressBar();
     dispatch({ type: GET_SINGLE_USER_FETCHING });
     const idToken = localStorage.getItem("firebase_jwt");
     try {
       const user = await axios.get(
-        "https://wanderlust-nodejs-be.herokuapp.com/api/users/userId",
+        // "https://wanderlust-nodejs-be.herokuapp.com/api/users/userId",
+        "http://localhost:4000/api/users/userId",
         {
           headers: {
             Authorization: idToken,
@@ -148,10 +184,10 @@ export const getSingleUserById = () => {
         }
       );
 
+      console.log("Get single user by id: ", user);
       dispatch({ type: GET_SINGLE_USER_SUCCESS, payload: user.data });
-      console.log("Get single guide: ", user.data);
     } catch (error) {
-      console.log("Get single guide err: ", error.response);
+      console.log("Get single user by id: ", error.response);
       dispatch({ type: GET_SINGLE_USER_FAILURE, payload: error.response });
     }
   };
@@ -171,7 +207,8 @@ export const updateUserById = (userData) => {
       const idToken = localStorage.getItem("firebase_jwt");
 
       const updatedUser = await axios.put(
-        "https://wanderlust-nodejs-be.herokuapp.com/api/users/update/user",
+        // "https://wanderlust-nodejs-be.herokuapp.com/api/users/update/user",
+        "http://localhost:4000/api/users/update/user",
         userData,
         {
           headers: {
@@ -202,11 +239,15 @@ export const getAllTours = () => (dispatch) => {
   const idToken = localStorage.getItem("firebase_jwt");
 
   axios
-    .get("https://wanderlust-nodejs-be.herokuapp.com/api/tours", {
-      headers: {
-        Authorization: idToken,
-      },
-    })
+    .get(
+      // "https://wanderlust-nodejs-be.herokuapp.com/api/tours",
+      "http://localhost:4000/api/tours",
+      {
+        headers: {
+          Authorization: idToken,
+        },
+      }
+    )
     .then((res) => {
       console.log("Get all tours: ", res.data);
       dispatch({ type: FETCHING_TOURS_SUCCESS, payload: res.data });
@@ -230,7 +271,8 @@ export const getSingleGuidesTours = () => {
     const idToken = localStorage.getItem("firebase_jwt");
     try {
       const tours = await axios.get(
-        "https://wanderlust-nodejs-be.herokuapp.com/api/users/offered-tours",
+        // "https://wanderlust-nodejs-be.herokuapp.com/api/users/offered-tours",
+        "http://localhost:4000/api/users/offered-tours",
         {
           headers: {
             Authorization: idToken,
@@ -258,11 +300,15 @@ export const getTourById = (id) => (dispatch) => {
   console.log("id: >>>>>", id);
 
   axios
-    .get(`https://wanderlust-nodejs-be.herokuapp.com/api/tours/${id}`, {
-      headers: {
-        Authorization: idToken,
-      },
-    })
+    .get(
+      // `https://wanderlust-nodejs-be.herokuapp.com/api/tours/${id}`,
+      `http://localhost:4000/api/tours/${id}`,
+      {
+        headers: {
+          Authorization: idToken,
+        },
+      }
+    )
     .then((res) => {
       console.log("Get Single Tour: ", res);
       dispatch({ type: FETCHING_SINGLETOUR_SUCCESS, payload: res.data });
@@ -286,11 +332,16 @@ export const addTour = (tour) => (dispatch) => {
   const idToken = localStorage.getItem("firebase_jwt");
 
   axios
-    .post("https://wanderlust-nodejs-be.herokuapp.com/api/tours", tour, {
-      headers: {
-        Authorization: idToken,
-      },
-    })
+    .post(
+      // "https://wanderlust-nodejs-be.herokuapp.com/api/tours",
+      "http://localhost:4000/api/tours",
+      tour,
+      {
+        headers: {
+          Authorization: idToken,
+        },
+      }
+    )
     .then((res) => {
       console.log("add a tour SUCCESSFULL: ", res);
       dispatch({ type: ADD_TOUR_SUCCESS, payload: res.data });
@@ -301,20 +352,20 @@ export const addTour = (tour) => (dispatch) => {
     });
 };
 
-// Set Tour Lat Long
-export const SET_LAT_LNG_START = "SET_LAT_LNG_START";
-export const SET_LAT_LNG_SUCCESS = "SET_LAT_LNG_SUCCESS";
-export const SET_LAT_LNG_FAILURE = "SET_LAT_LNG_FAILURE";
+// // Set Tour Lat Long
+// export const SET_LAT_LNG_START = "SET_LAT_LNG_START";
+// export const SET_LAT_LNG_SUCCESS = "SET_LAT_LNG_SUCCESS";
+// export const SET_LAT_LNG_FAILURE = "SET_LAT_LNG_FAILURE";
 
-export const setLatLong = (lat, lng) => (dispatch) => {
-  console.log("tour lat lng action", lat, lng);
-  dispatch({ type: SET_LAT_LNG_START });
-  if (lat && lng) {
-    dispatch({ type: SET_LAT_LNG_SUCCESS, payload: { lat: lat, lng: lng } });
-  } else {
-    dispatch({ type: SET_LAT_LNG_FAILURE, payload: "Error with lat or lng" });
-  }
-};
+// export const setLatLong = (lat, lng) => (dispatch) => {
+//   console.log("tour lat lng action", lat, lng);
+//   dispatch({ type: SET_LAT_LNG_START });
+//   if (lat && lng) {
+//     dispatch({ type: SET_LAT_LNG_SUCCESS, payload: { lat: lat, lng: lng } });
+//   } else {
+//     dispatch({ type: SET_LAT_LNG_FAILURE, payload: "Error with lat or lng" });
+//   }
+// };
 
 // Update a tour by id
 export const UPDATE_TOUR_START = "UPDATE_TOUR_START";

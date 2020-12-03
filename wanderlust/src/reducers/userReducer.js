@@ -41,6 +41,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         signingUp: true,
+        signUpErr: "",
       };
     case SIGNUP_SUCCESS:
       return {
@@ -81,6 +82,7 @@ const userReducer = (state = initialState, action) => {
         fetchingUser: true,
       };
     case GET_SINGLE_USER_SUCCESS:
+      console.log("userReducer action.payload>>>>>>>>", action.payload);
       return {
         ...state,
         fetchingUser: false,

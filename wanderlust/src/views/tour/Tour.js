@@ -1,7 +1,7 @@
 import React from "react";
 import "./Tour.css";
 import { connect } from "react-redux";
-import { getTourById, addTouristToTour } from "../actions";
+import { getTourById, addTouristToTour } from "../../actions";
 import { Redirect } from "react-router";
 import {
   MDBContainer,

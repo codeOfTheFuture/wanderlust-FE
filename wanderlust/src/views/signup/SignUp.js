@@ -1,42 +1,38 @@
 import React from "react";
-import SignIn from "../components/SignIn";
+import SignUp from "../../components/SignUp";
+import Navbar from "../../components/NavBar";
 import { Route } from "react-router-dom";
 import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavbarToggler,
-  MDBCollapse,
-  MDBNavItem,
-  MDBNavLink,
   MDBMask,
   MDBView,
+  MDBCard,
+  MDBCardBody,
+  MDBCardText,
+  MDBCol,
 } from "mdbreact";
 
-import { MDBCard, MDBCardBody, MDBCardText, MDBCol } from "mdbreact";
-
-import "../App.css";
+import "../../App.css";
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       collapse: false,
       isWideEnough: false,
     };
-    this.onClick = this.onClick.bind(this);
   }
 
-  onClick() {
+  onClick = () => {
     this.setState({
       collapse: !this.state.collapse,
     });
-  }
+  };
   render() {
     return (
       <div>
         <header>
-          <MDBNavbar
+          <Navbar {...this.props} />
+          {/* <MDBNavbar
             color='unique-color'
             fixed='top'
             dark
@@ -80,14 +76,14 @@ class Home extends React.Component {
                   }}
                 >
                   {this.props.location.pathname === "/signup" ? (
-                    <MDBNavLink to='/'>Sign In</MDBNavLink>
+                    <MDBNavLink to='/signin'>Sign In</MDBNavLink>
                   ) : (
                     <MDBNavLink to='/signup'>Sign Up</MDBNavLink>
                   )}
                 </MDBNavItem>
               </MDBNavbarNav>
             </MDBCollapse>
-          </MDBNavbar>
+          </MDBNavbar> */}
         </header>
         <MDBView src='https://i.imgur.com/4ox5JIo.png'>
           <MDBMask
@@ -102,7 +98,7 @@ class Home extends React.Component {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "50%",
+                    marginTop: "14rem",
                     marginLeft: "25rem",
                     padding: "2rem",
                     width: "35rem",
@@ -111,8 +107,8 @@ class Home extends React.Component {
                   <MDBCardBody>
                     <MDBCardText>
                       <Route
-                        path='/'
-                        render={(props) => <SignIn {...props} />}
+                        path='/signup'
+                        render={(props) => <SignUp {...props} />}
                       />
                     </MDBCardText>
                   </MDBCardBody>

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import NumberFormat from "react-number-format";
-import { getSingleUserById, updateTour, deleteTour } from "../actions";
-import "./AddTour.css";
+import { getSingleUserById, updateTour, deleteTour } from "../../actions";
+import "../add tour/AddTour.css";
 
 import {
   MDBNavbar,
