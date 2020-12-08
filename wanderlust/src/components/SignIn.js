@@ -9,6 +9,7 @@ import {
   MDBInput,
   MDBBtn,
   MDBIcon,
+  MDBAlert,
 } from "mdbreact";
 
 class SignIn extends React.Component {
@@ -17,7 +18,7 @@ class SignIn extends React.Component {
     this.state = {
       email: "",
       password: "",
-      error: "",
+      error: false,
     };
   }
 
@@ -25,10 +26,27 @@ class SignIn extends React.Component {
     event.preventDefault();
     const { email, password } = this.state;
     this.props.signIn(method, { email, password }).then(() => {
-      if (this.props.currentUser.isTourGuide) {
-        this.props.history.push("/dashboard");
+      if (this.props.signInErr) {
+        this.setState((state) => {
+          return {
+            ...state,
+            error: true,
+          };
+        });
+        setTimeout(() => {
+          this.setState((state) => {
+            return {
+              ...state,
+              error: false,
+            };
+          });
+        }, 5000);
       } else {
-        this.props.history.push("/explore-tours");
+        if (this.props.currentUser.isTourGuide) {
+          this.props.history.push("/dashboard");
+        } else {
+          this.props.history.push("/explore-tours");
+        }
       }
     });
   };
@@ -42,6 +60,11 @@ class SignIn extends React.Component {
   render() {
     return (
       <div>
+        {this.state.error && (
+          <MDBAlert color='danger' dismiss>
+            {this.props.signInErr.message}
+          </MDBAlert>
+        )}
         <span className='h4 poppins-font main-color-blue'>
           Sign In to Wanderlust
         </span>
@@ -54,7 +77,7 @@ class SignIn extends React.Component {
                     label='Email'
                     group
                     size='sm'
-                    type='email'
+                    type='text'
                     validate
                     error='wrong'
                     success='right'
@@ -152,6 +175,7 @@ class SignIn extends React.Component {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.userReducer.currentUser,
+    signInErr: state.userReducer.signInErr,
   };
 };
 

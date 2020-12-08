@@ -73,7 +73,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         signingIn: false,
-        signUpErr: action.payload,
+        signInErr: action.payload,
       };
     // Fetching a single user by uid
     case GET_SINGLE_USER_FETCHING:
