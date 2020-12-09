@@ -32,6 +32,7 @@ class AddTour extends Component {
       tourPrice: 0,
       lat: 40.7128,
       lng: -74.006,
+      mapRef: {},
       options: [
         {
           text: "All Ages",
@@ -100,6 +101,15 @@ class AddTour extends Component {
     console.log(place);
   };
 
+  getMapRef = (mapRef) => {
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        mapRef: mapRef,
+      };
+    });
+  };
+
   setLatLng = (lat, lng) => {
     if ((lat, lng))
       this.setState((prevState) => {
@@ -110,7 +120,8 @@ class AddTour extends Component {
         };
       });
 
-    this.props.setLatLng(lat, lng);
+    this.state.mapRef.current.panTo({ lat, lng });
+    this.state.mapRef.current.setZoom(14);
   };
 
   render() {
@@ -187,6 +198,7 @@ class AddTour extends Component {
                 zoom={12}
                 lat={this.state.lat}
                 lng={this.state.lng}
+                getMapRef={this.getMapRef}
               />
             </div>
           </div>
@@ -431,11 +443,13 @@ function Search({ setLatLng }) {
   return (
     <div className='w-100'>
       <MDBAutocomplete
+        clear
         data={data.map((item) => item.description)}
         label='Tour Address'
         id='tourAddress'
         getValue={logValue}
         className='address'
+        style={{ overflowWrap: "break-word !important" }}
       />
     </div>
   );

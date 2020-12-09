@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useCallback } from "react";
 import {
   GoogleMap,
   // LoadScript,
@@ -22,8 +22,14 @@ const options = {
   zoomControl: true,
 };
 
-const Map = ({ lat, lng }) => {
+const Map = ({ lat, lng, getMapRef }) => {
   // if (loadError) return "Error loading maps";
+  const mapRef = useRef();
+  const onMapLoad = useCallback((map) => {
+    mapRef.current = map;
+    getMapRef(mapRef);
+  }, []);
+
   console.log("lat, lng from map", lat, lng);
   return (
     <div>
@@ -32,6 +38,7 @@ const Map = ({ lat, lng }) => {
         zoom={12}
         center={center}
         options={options}
+        onLoad={onMapLoad}
       ></GoogleMap>
     </div>
   );

@@ -43,6 +43,7 @@ const initialState = {
   tour: {},
   lat: 0,
   lng: 0,
+  mapRef: {},
   addingTour: false,
   addingTourErr: "",
   settingLatLng: false,

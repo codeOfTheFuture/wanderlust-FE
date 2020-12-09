@@ -341,20 +341,14 @@ export const addTour = (tour) => (dispatch) => {
     });
 };
 
-// // Set Tour Lat Long
-// export const SET_LAT_LNG_START = "SET_LAT_LNG_START";
-// export const SET_LAT_LNG_SUCCESS = "SET_LAT_LNG_SUCCESS";
-// export const SET_LAT_LNG_FAILURE = "SET_LAT_LNG_FAILURE";
+// // Set Map Ref
+// export const SET_MAP_REF_START = "SET_MAP_REF_START";
+// export const SET_MAP_REF_SUCCESS = "SET_MAP_REF_SUCCESS";
 
-// export const setLatLong = (lat, lng) => (dispatch) => {
-//   console.log("tour lat lng action", lat, lng);
-//   dispatch({ type: SET_LAT_LNG_START });
-//   if (lat && lng) {
-//     dispatch({ type: SET_LAT_LNG_SUCCESS, payload: { lat: lat, lng: lng } });
-//   } else {
-//     dispatch({ type: SET_LAT_LNG_FAILURE, payload: "Error with lat or lng" });
-//   }
-// };
+// export const setMapRef = (mapRef) => (dispatch) => {
+//   dispatch({ type: SET_MAP_REF_START });
+//   dispatch({ type: SET_MAP_REF_SUCCESS, payload: mapRef });
+// }
 
 // Update a tour by id
 export const UPDATE_TOUR_START = "UPDATE_TOUR_START";
