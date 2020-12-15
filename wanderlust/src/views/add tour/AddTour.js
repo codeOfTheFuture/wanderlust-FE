@@ -449,7 +449,7 @@ function Search({ setLatLng }) {
         id='tourAddress'
         getValue={logValue}
         className='address'
-        style={{ overflowWrap: "break-word !important" }}
+        style={{ wordWrap: "" }}
       />
     </div>
   );
