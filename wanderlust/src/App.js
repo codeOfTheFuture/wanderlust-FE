@@ -28,7 +28,11 @@ function App() {
       />
       <Route exact path='/signin' render={(props) => <SignIn {...props} />} />
       <Route exact path='/signup' render={(props) => <SignUp {...props} />} />
-      <Route exact path='/dashboard' render={() => <Dashboard />} />
+      <Route
+        exact
+        path='/dashboard'
+        render={(props) => <Dashboard {...props} />}
+      />
       <Route exact path='/tours/:id' render={(props) => <Tour {...props} />} />
       <Route
         exact

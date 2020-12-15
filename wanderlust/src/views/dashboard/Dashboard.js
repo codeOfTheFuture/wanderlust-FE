@@ -23,15 +23,15 @@ class Dashboard extends React.Component {
     return (
       <div>
         <header className='dashboardHeader'>
-          <NavBar {...this.props} currentUser={this.props.currentUser} />
+          <NavBar {...this.props} />
           <MDBView src='/assets/mountains2.png' className='background'>
             <MDBMask className='flex-center flex-column text-white text-center rgba-black-strong'>
-              {this.props.currentUser.first_name && (
+              {this.props.currentUser.firstName && (
                 <h2
                   className='poppins-font'
                   style={{ fontSize: "6rem", fontWeight: "bold" }}
                 >
-                  Hi {this.props.currentUser.first_name}
+                  Hi {this.props.currentUser.firstName}
                 </h2>
               )}
               <h3>Tours Dashboard</h3>
