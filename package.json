@@ -1,7 +1,7 @@
 {
   "name": "wanderlust",
   "version": "1.0.0",
-  "description": "[Visit Wanderlust](http://www.wanderlust.saschamajewsky.de)",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve",
@@ -18,8 +18,16 @@
   },
   "homepage": "https://github.com/codeOfTheFuture/wanderlust-FE#readme",
   "dependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "axios": "^0.21.1",
+    "firebase": "^8.4.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-redux": "^7.2.3",
+    "react-redux-firebase": "^3.10.0",
+    "react-router-dom": "^5.2.0",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.37",
