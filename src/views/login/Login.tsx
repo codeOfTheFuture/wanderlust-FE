@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Login = () => {
+const Login: React.FC = () => {
   return (
     <div>
       <h1>Login</h1>

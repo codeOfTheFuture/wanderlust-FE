@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Tour = () => {
+const Tour: React.FC = () => {
   return (
     <div>
       <h1>Tour</h1>

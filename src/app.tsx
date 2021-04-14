@@ -10,7 +10,7 @@ import AddTour from "./views/add tour/AddTour";
 import UpdateTour from "./views/update tour/UpdateTour";
 import Navbar from "./components/navbar/Navbar";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className='App'>
       <Navbar />

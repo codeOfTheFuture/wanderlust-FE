@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const ExploreTours = () => {
+const ExploreTours: React.FC = () => {
   return (
     <div>
       <h1>Explore Tours</h1>
